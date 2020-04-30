@@ -25,14 +25,16 @@
     </v-app-bar>
     <v-content>
       <div>
-        <nuxt />
+        <ul>
+          <li v-for="m in messages" :key="m.text">{{m.text}}</li>
+        </ul>
       </div>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   data: () => ({
     drawer: false,
@@ -41,12 +43,20 @@ export default {
       { id: 2, name: "User2" }
     ]
   }),
+  computed: mapState(["user"]),
+  methods: {
+    ...mapMutations(["clearData"]),
+    exit() {
+      this.$router.push("/?message=leftChat");
+      this.clearData();
+    }
+  },
   middleware: ["chat"],
   head() {
     return {
       title: `Room ${this.user.room}`
     };
   },
-  computed: mapState(["user"])
+  computed: mapState(["user", "messages"])
 };
 </script>

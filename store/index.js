@@ -1,5 +1,6 @@
 export const state = () => ({
-    user: {}
+    user: {},
+    messages: []
 })
 
 export const mutations = {
@@ -7,12 +8,10 @@ export const mutations = {
         state.user = user
     },
     clearData(state) {
-        state.user = {}
-    }
-}
-
-export const actions = {
-    SOCKET_newMessage(ctx, data) { // calling our action , when 
-        console.log('Message received', data)// We will receive this message if server sends response to us
+        state.messages = [],
+            state.user = {}
+    },
+    SOCKET_newMessage(state, message) {
+        state.messages.push(message)
     }
 }

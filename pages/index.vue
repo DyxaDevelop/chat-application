@@ -54,8 +54,15 @@ export default {
           name: this.name,
           room: this.room
         };
-        this.setUser(user); // transfer user to sever
-        this.$router.push("/chat"); //Redirect to chat page
+        this.$socket.emit("newUser", user, data => {
+          if (typeof data == "string") {
+            console.log(data);
+          } else {
+            user.id = data.userId;
+            this.setUser(user); // transfer user to sever
+            this.$router.push("/chat"); //Redirect to chat page
+          }
+        });
       }
     }
   }
