@@ -7,9 +7,12 @@ io.on('connection', socket => {
         if (typeof data.name == 'null' || typeof data.room == 'null') {
             return newcallback('Try again')
         }
-
+        socket.join(data.room)
         newcallback({ userid: socket.id })
         socket.emit('newMessage', toObject('admin', `Welcome ${data.name}`))
+        socket.broadcast
+            .to(data.room)
+            .emit('newMessage', toObject('admin', `User ${data.name} connected`))
     })
 
     socket.on('createMessage', data => {

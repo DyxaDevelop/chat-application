@@ -24,10 +24,13 @@
       <v-btn class="ma-2" @click="exit">Exit</v-btn>
     </v-app-bar>
     <v-content>
-      <div>
-        <ul>
-          <li v-for="m in messages" :key="m.text">{{m.text}}</li>
-        </ul>
+      <div class="chat-wrap" style="height: 100%">
+        <div class="chat">
+          <ul>
+            <li v-for="m in messages" :key="m.text">{{m.text}}</li>
+          </ul>
+        </div>
+        <div class="chat-form"></div>
       </div>
     </v-content>
   </v-app>
@@ -60,3 +63,29 @@ export default {
   computed: mapState(["user", "messages"])
 };
 </script>
+
+<style  scoped>
+.chat-wrap {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.chat-form {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  height: 80px;
+  background: #212121;
+}
+.chat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 80px;
+  padding: 1rem;
+  overflow-y: auto;
+}
+</style>
