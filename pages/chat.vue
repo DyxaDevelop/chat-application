@@ -26,9 +26,7 @@
     <v-content>
       <div class="chat-wrap" style="height: 100%">
         <div class="chat">
-          <ul>
-            <li v-for="m in messages" :key="m.text">{{m.text}}</li>
-          </ul>
+          <message v-for="m in messages" :name="m.name" :key="m.text" :text="m.text" owner />
         </div>
         <div class="chat-form"></div>
       </div>
@@ -38,6 +36,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import message from "@/components/message.vue";
 export default {
   data: () => ({
     drawer: false,
@@ -46,6 +45,7 @@ export default {
       { id: 2, name: "User2" }
     ]
   }),
+  components: { message },
   computed: mapState(["user"]),
   methods: {
     ...mapMutations(["clearData"]),
