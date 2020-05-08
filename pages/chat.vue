@@ -4,7 +4,7 @@
   <v-app app dark>
     <v-navigation-drawer app v-model="drawer">
       <v-list subheader>
-        <v-subheader>List of users in the room</v-subheader>
+        <v-subheader>List of users in this room</v-subheader>
 
         <v-list-item v-for="u in users" :key="u.id" @click.prevent>
           <v-list-item-content>
@@ -26,9 +26,17 @@
     <v-content>
       <div class="chat-wrap" style="height: 100%">
         <div class="chat">
-          <message v-for="m in messages" :name="m.name" :key="m.text" :text="m.text" owner />
+          <message
+            v-for="m in messages"
+            :name="m.name"
+            :key="m.text"
+            :text="m.text"
+            :owner="m.id === user.id"
+          />
         </div>
-        <div class="chat-form"></div>
+        <div class="chat-form">
+          <formChat />
+        </div>
       </div>
     </v-content>
   </v-app>
@@ -37,6 +45,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import message from "@/components/message.vue";
+import formChat from "@/components/formChat.vue";
 export default {
   data: () => ({
     drawer: false,
@@ -45,8 +54,7 @@ export default {
       { id: 2, name: "User2" }
     ]
   }),
-  components: { message },
-  computed: mapState(["user"]),
+  components: { message, formChat },
   methods: {
     ...mapMutations(["clearData"]),
     exit() {

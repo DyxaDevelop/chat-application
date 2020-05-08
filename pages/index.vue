@@ -40,7 +40,7 @@ export default {
     name: "",
     nameRules: [
       v => !!v || "Nickname is required",
-      v => (v && v.length <= 10) || "Name must be less than 16 characters"
+      v => (v && v.length <= 16) || "Name must be less than 16 characters"
     ],
     room: "",
     roomRules: [v => !!v || "Write a room code"]

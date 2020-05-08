@@ -1,26 +1,46 @@
+/* Create server using Express*/
 const app = require('express')()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
+const users = require('./users.js')()
+
+
 const toObject = (name, text, id) => ({ name, text, id })
+
+
+
 io.on('connection', socket => {
     socket.on('newUser', (data, newcallback) => {
-        if (typeof data.name == 'null' || typeof data.room == 'null') {
+        if (!data.name || !data.room) {
             return newcallback('Try again')
         }
+
         socket.join(data.room)
-        newcallback({ userid: socket.id })
+
+        users.remove(socket.id)
+        users.add({
+            id: socket.id,
+            name: data.name,
+            room: data.room
+        })
+
+        newcallback({ userId: socket.id })
         socket.emit('newMessage', toObject('admin', `Welcome ${data.name}`))
         socket.broadcast
             .to(data.room)
             .emit('newMessage', toObject('admin', `User ${data.name} connected`))
     })
-
-    socket.on('createMessage', data => {
-        setTimeout(() => {
-            socket.emit('newMessage', {
-                text: data.text + 'Server'
-            })
-        }, 500)
+    /*This method creates messages */
+    socket.on('createMessage', (data, newcallback) => {
+        let userID = data.id
+        if (!data.text) {
+            return newcallback('Write something')
+        }
+        let user = users.getUser(data.id)
+        if (user) {
+            io.to(user.room).emit('newMessage', toObject(user.name, data.text, data.id))
+        }
+        newcallback()
     })
 })
 

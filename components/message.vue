@@ -19,7 +19,6 @@ export default {
   props: {
     name: String,
     text: String,
-    id: Number,
     owner: {
       type: Boolean,
       default: false
