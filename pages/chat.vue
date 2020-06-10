@@ -23,6 +23,7 @@
       <v-btn class="ma-2" @click="exit">Exit</v-btn>
     </v-app-bar>
     <v-content>
+      <!-- Message -->
       <div class="chat-wrap" style="height: 100%">
         <div class="chat" ref="visible">
           <message
@@ -52,6 +53,7 @@ export default {
   computed: mapState(["user", "messages", "users"]),
   components: { message, formChat },
   methods: {
+    /* Deletes user data and redirects to login form*/
     ...mapMutations(["clearData"]),
     exit() {
       this.$socket.emit("userLeft", this.user.id, () => {
@@ -62,12 +64,14 @@ export default {
   },
   middleware: ["chat"],
   head() {
+    /* Drawer tittle */
     return {
       title: `Room ${this.user.room}`
     };
   },
   watch: {
     messages() {
+      /* Scrolls to the last message*/
       setTimeout(() => {
         this.$refs.visible.scrollTop = this.$refs.visible.scrollHeight;
       });

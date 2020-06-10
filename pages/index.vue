@@ -46,11 +46,11 @@ export default {
     roomRules: [v => !!v || "Write a room code"]
   }),
   methods: {
-    ...mapMutations(["setUser"]), //call mutation from store
+    ...mapMutations(["setUser"]), //calls mutation for store
     submit() {
       if (this.$refs.form.validate()) {
         const user = {
-          //creating user
+          //creates user
           name: this.name,
           room: this.room
         };
@@ -59,8 +59,8 @@ export default {
             console.log(data);
           } else {
             user.id = data.userId;
-            this.setUser(user); // transfer user to sever
-            this.$router.push("/chat"); //Redirect to chat page
+            this.setUser(user); // Sends user to sever
+            this.$router.push("/chat"); //Redirects to chat page
           }
         });
       }

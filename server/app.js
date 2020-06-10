@@ -8,9 +8,11 @@ const users = require('./users.js')()
 const toObject = (name, text, id) => ({ name, text, id })
 
 
-
+/* Connection Socket*/
 io.on('connection', socket => {
+    /* Creates new user and joins him to the room*/
     socket.on('newUser', (data, newcallback) => {
+
         if (!data.name || !data.room) {
             return newcallback('Try again')
         }
@@ -23,7 +25,7 @@ io.on('connection', socket => {
             name: data.name,
             room: data.room
         })
-
+        /* Callback to welcome new user*/
         newcallback({ userId: socket.id })
         io.to(data.room).emit('updateUsers', users.getByRoom(data.room))
         socket.emit('newMessage', toObject('admin', `Welcome ${data.name}`))
@@ -31,7 +33,7 @@ io.on('connection', socket => {
             .to(data.room)
             .emit('newMessage', toObject('admin', `User ${data.name} connected`))
     })
-    /*This method creates messages */
+    /*This method creates and sends messages */
     socket.on('createMessage', (data, newcallback) => {
         let userID = data.id
         if (!data.text) {
@@ -44,6 +46,7 @@ io.on('connection', socket => {
         }
         newcallback()
     })
+    /* Sends messages to everyone when user left and deletes him from User List */
     socket.on('userLeft', (id, cb) => {
         const user = users.remove(id)
         if (user) {
