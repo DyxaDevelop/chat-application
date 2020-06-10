@@ -12,7 +12,7 @@
           </v-list-item-content>
 
           <v-list-item-icon>
-            <v-icon :color="u.id === 2 ? 'primary' : 'grey'">mdi-chat</v-icon>
+            <v-icon :color="u.id === user.id ? 'primary' : 'grey'">mdi-chat</v-icon>
           </v-list-item-icon>
         </v-list-item>
       </v-list>
@@ -48,18 +48,16 @@ import message from "@/components/message.vue";
 import formChat from "@/components/formChat.vue";
 export default {
   data: () => ({
-    drawer: false,
-    users: [
-      { id: 1, name: "User1" },
-      { id: 2, name: "User2" }
-    ]
+    drawer: false
   }),
   components: { message, formChat },
   methods: {
     ...mapMutations(["clearData"]),
     exit() {
-      this.$router.push("/?message=leftChat");
-      this.clearData();
+      this.$socket.emit("userLeft", this.user.id, () => {
+        this.$router.push("/?message=leftChat");
+        this.clearData();
+      });
     }
   },
   middleware: ["chat"],
@@ -68,7 +66,7 @@ export default {
       title: `Room ${this.user.room}`
     };
   },
-  computed: mapState(["user", "messages"])
+  computed: mapState(["user", "messages", "users"])
 };
 </script>
 
