@@ -1,11 +1,10 @@
 <template>
   <!-- App.vue -->
 
-  <v-app app dark>
+  <v-app app>
     <v-navigation-drawer app v-model="drawer">
       <v-list subheader>
         <v-subheader>List of users in this room</v-subheader>
-
         <v-list-item v-for="u in users" :key="u.id" @click.prevent>
           <v-list-item-content>
             <v-list-item-title>{{u.name}}</v-list-item-title>
@@ -25,7 +24,7 @@
     </v-app-bar>
     <v-content>
       <div class="chat-wrap" style="height: 100%">
-        <div class="chat">
+        <div class="chat" ref="visible">
           <message
             v-for="m in messages"
             :name="m.name"
@@ -50,12 +49,13 @@ export default {
   data: () => ({
     drawer: false
   }),
+  computed: mapState(["user", "messages", "users"]),
   components: { message, formChat },
   methods: {
     ...mapMutations(["clearData"]),
     exit() {
       this.$socket.emit("userLeft", this.user.id, () => {
-        this.$router.push("/?message=leftChat");
+        this.$router.push("/");
         this.clearData();
       });
     }
@@ -66,7 +66,13 @@ export default {
       title: `Room ${this.user.room}`
     };
   },
-  computed: mapState(["user", "messages", "users"])
+  watch: {
+    messages() {
+      setTimeout(() => {
+        this.$refs.visible.scrollTop = this.$refs.visible.scrollHeight;
+      });
+    }
+  }
 };
 </script>
 

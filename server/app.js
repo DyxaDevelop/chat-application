@@ -47,7 +47,8 @@ io.on('connection', socket => {
     socket.on('userLeft', (id, cb) => {
         const user = users.remove(id)
         if (user) {
-            io.to(user.room).emit('newMessage', toObject('admin', `User ${user.room} has left`))
+            io.to(user.room).emit('updateUsers', users.getByRoom(user.room))
+            io.to(user.room).emit('newMessage', toObject('admin', `User ${user.name} has left`))
         }
         cb()
     })
@@ -55,7 +56,7 @@ io.on('connection', socket => {
         const user = users.remove(socket.id)
         if (user) {
             io.to(user.room).emit('updateUsers', users.getByRoom(user.room))
-            io.to(user.room).emit('newMessage', toObject('admin', `User ${user.room} has left`))
+            io.to(user.room).emit('newMessage', toObject('admin', `User ${user.name} has left`))
         }
     })
 })
