@@ -1,10 +1,4 @@
 const colors = require('vuetify/es5/util/colors').default
-export default {
-  target: 'static',
-  router: {
-    base: '/<repository-name>/'
-  }
-}
 module.exports = {
   mode: 'universal',
   /*
