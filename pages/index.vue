@@ -13,9 +13,20 @@
               required
             ></v-text-field>
 
-            <v-text-field v-model="room" :rules="roomRules" label="Room number" required></v-text-field>
+            <v-text-field
+              v-model="room"
+              :rules="roomRules"
+              label="Room number"
+              required
+            ></v-text-field>
 
-            <v-btn :disabled="!valid" color="primary" class="mr-4" @click="submit">Log in</v-btn>
+            <v-btn
+              :disabled="!valid"
+              color="primary"
+              class="mr-4"
+              @click="submit"
+              >Log in</v-btn
+            >
           </v-form>
         </v-card-text>
       </v-card>

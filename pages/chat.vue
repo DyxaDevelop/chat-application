@@ -7,18 +7,20 @@
         <v-subheader>List of users in this room</v-subheader>
         <v-list-item v-for="u in users" :key="u.id" @click.prevent>
           <v-list-item-content>
-            <v-list-item-title>{{u.name}}</v-list-item-title>
+            <v-list-item-title>{{ u.name }}</v-list-item-title>
           </v-list-item-content>
 
           <v-list-item-icon>
-            <v-icon :color="u.id === user.id ? 'primary' : 'grey'">mdi-chat</v-icon>
+            <v-icon :color="u.id === user.id ? 'primary' : 'grey'"
+              >mdi-chat</v-icon
+            >
           </v-list-item-icon>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app right>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title class="mr-10">Chatroom {{user.room}}</v-toolbar-title>
+      <v-toolbar-title class="mr-10">Chatroom {{ user.room }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn class="ma-2" @click="exit">Exit</v-btn>
     </v-app-bar>
@@ -80,7 +82,7 @@ export default {
 };
 </script>
 
-<style  scoped>
+<style scoped>
 .chat-wrap {
   height: 100%;
   position: relative;
