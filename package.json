@@ -17,7 +17,7 @@
     "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "nuxt": "^2.15.6",
-    "socket.io": "^4.1.2",
+    "socket.io": "^4.5.4",
     "vue-socket.io": "^3.0.10"
   },
   "devDependencies": {
